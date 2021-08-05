@@ -1,0 +1,38 @@
+.listInside{
+   width: 37.5%;
+   margin: 10px auto;
+}
+
+
+.list ul{
+    box-shadow: 0 8px 20px grey;
+    border-radius: 6px;
+    height: 50%;
+    margin-top: 1rem;
+    padding: 1rem;
+    list-style: none;
+}
+
+
+.list{
+    width: inherit
+}
+
+
+
+.listInside li{
+    display: flex;
+    justify-content: space-between;
+} 
+
+
+.title{
+    border-bottom: 3px solid grey;
+    padding-bottom:10px ;
+    width: 37.5%;
+   margin: 10px auto;
+}
+
+.header{
+    margin-top:2rem
+}

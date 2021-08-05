@@ -1,0 +1,45 @@
+.btn{
+    background-color:rgba(245, 49, 75, 0.932);
+    font-size: 1.3rem;
+    color:white;
+    padding: 0.3rem 2rem 0.5rem;
+    border-radius: 6px;
+    font: inherit;
+    border: 1px solid grey;
+    cursor: pointer;
+}
+
+.btn:hover{
+box-shadow:0 2px 4px rgba(0, 0, 0, 0.26) ;
+}
+
+
+.form{
+text-align: center;
+
+}
+
+.control{
+text-align: start;
+margin-bottom: 1.5rem;
+}
+
+.control input{
+display: block;
+width: 100%;
+border: none;
+border-bottom:2px solid grey;
+padding:7px
+}
+
+.control input:focus{
+    outline: none;
+    border-bottom-color: orangered;
+}
+
+.btnDiv{
+    display: flex;
+    justify-content: space-between;
+}
+
+
