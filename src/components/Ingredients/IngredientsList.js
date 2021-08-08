@@ -5,7 +5,6 @@ import classes from './IngredientsList.module.css'
 const IngredientsList = (props)=>{
     const recieveData = props.data
     const content = recieveData.map(item=>{
-        console.log(recieveData)
         return <div className={classes.list} key={item.id} onClick={()=>props.removeHandler(item.id)}>
         <div className={classes.listInside}>
         <ul>

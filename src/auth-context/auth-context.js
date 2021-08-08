@@ -16,7 +16,6 @@ const AuthContextProvider = (props)=>{
         setAuthState(prevState=>{
             return !prevState
         })
-        // setAuthState(true)
     }
 
 

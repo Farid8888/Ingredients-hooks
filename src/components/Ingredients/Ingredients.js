@@ -1,18 +1,19 @@
 import IngredientsInput from "./IngredientsInput";
 import Search from "../Search/Search";
 import IngredientsList from "../Ingredients/IngredientsList";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useCallback } from "react";
 import React from "react";
+import ErrorModal from "../ui/ErrorModal";
 
 const Ingredients = () => {
   const [recieveData, setRecieveData] = useState([]);
   const [loadingSpinner, setLoadingSpinner] = useState(false);
+  const [error,setError] = useState(null)
 
   useEffect(() => {
     fetch("https://auth-with-hooks-default-rtdb.firebaseio.com/form.json")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         const responseData = [];
         for (let key in data) {
           const newData = {
@@ -40,7 +41,10 @@ const Ingredients = () => {
         setRecieveData((prevIngredients) => {
           return [...prevIngredients, { ...sendData, id: data.name }];
         });
-      });
+      }).catch(error=>{
+        setError(error.message)
+        setLoadingSpinner(false)
+      })
   };
 
   const remove = (IdFromFirebase) => {
@@ -60,62 +64,23 @@ const Ingredients = () => {
       });
   };
 
-  const searchHandler = (title) => {
-    for (let i in recieveData) {
-      console.log(recieveData);
-      console.log(i);
-      const titleInArray = recieveData[i].title;
-      console.log(titleInArray);
-      if (titleInArray === title) {
-        console.log("set");
-        console.log(title);
-        const query = `?orderBy="title"&equalTo="${title}"`;
-        fetch(
-          "https://auth-with-hooks-default-rtdb.firebaseio.com/form.json" +
-            query
-        )
-          .then((response) => {
-            return response.json();
-          })
-          .then((data) => {
-            const responseData = [];
-            for (let key in data) {
-              const newData = {
-                ...data[key],
-                id: key,
-              };
-              responseData.push(newData);
-            }
-            setRecieveData(responseData);
-            i++;
-          });
-      }else {
-        if (title.length === 0) {
-          fetch("https://auth-with-hooks-default-rtdb.firebaseio.com/form.json")
-            .then((response) => response.json())
-            .then((data) => {
-              console.log(data);
-              const responseData = [];
-              for (let key in data) {
-                const newData = {
-                  ...data[key],
-                  id: key,
-                };
-                responseData.push(newData);
-              }
-              setRecieveData(responseData);
-            });
-        }
-      }
-    }
-  };
+  const searchHandler = useCallback((fiteredIngredients)=>{
+    setRecieveData(fiteredIngredients)
+  },[])
+
+  const closeErrorModal =()=>{
+    setError(null)
+  }
 
   return (
+    <React.Fragment>
+    {error && <ErrorModal error={error} close={closeErrorModal} errorMessage='An Error Occurred!'/>}  
     <div>
       <IngredientsInput onSend={setData} loading={loadingSpinner} />
       <Search search={searchHandler} />
       <IngredientsList data={recieveData} removeHandler={remove} />
     </div>
+    </React.Fragment>
   );
 };
 export default Ingredients;
